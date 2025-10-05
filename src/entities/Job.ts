@@ -9,7 +9,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './User';
-import { JobApplication } from './JobApplication';
 
 export enum JobStatus {
   DRAFT = 'draft',
@@ -101,8 +100,8 @@ export class Job {
   @Column()
   createdById!: string;
 
-  @OneToMany(() => JobApplication, (application) => application.job)
-  applications!: JobApplication[];
+  @OneToMany('JobApplication', 'job')
+  applications!: any[];
 
   @CreateDateColumn()
   createdAt!: Date;

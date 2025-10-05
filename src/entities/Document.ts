@@ -8,7 +8,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './User';
-import { JobApplication } from './JobApplication';
 
 export enum DocumentType {
   RESUME = 'resume',
@@ -73,9 +72,9 @@ export class Document {
   @Column()
   uploadedById!: string;
 
-  @ManyToOne(() => JobApplication, (application) => application.documents, { nullable: true })
+  @ManyToOne('JobApplication', 'documents', { nullable: true })
   @JoinColumn({ name: 'jobApplicationId' })
-  jobApplication?: JobApplication;
+  jobApplication?: any;
 
   @Column({ nullable: true })
   jobApplicationId?: string;

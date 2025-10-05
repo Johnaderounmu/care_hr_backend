@@ -18,6 +18,8 @@
   },
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start:prod": "node dist/index.js",
+    "start:simple": "node working-server.js",
     "build": "tsc",
     "test": "jest --coverage",
     "test:integration": "jest --testPathPattern=./test/",

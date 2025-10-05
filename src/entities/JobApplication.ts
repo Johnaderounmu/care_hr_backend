@@ -9,8 +9,6 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from './User';
-import { Job } from './Job';
-import { Document } from './Document';
 
 export enum ApplicationStatus {
   SUBMITTED = 'submitted',
@@ -30,9 +28,9 @@ export class JobApplication {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => Job, (job) => job.applications, { nullable: false })
+  @ManyToOne('Job', 'applications', { nullable: false })
   @JoinColumn({ name: 'jobId' })
-  job!: Job;
+  job: any;
 
   @Column()
   jobId!: string;
@@ -88,8 +86,8 @@ export class JobApplication {
   @Column({ type: 'timestamp', nullable: true })
   reviewedAt?: Date;
 
-  @OneToMany(() => Document, (document) => document.jobApplication)
-  documents!: Document[];
+  @OneToMany('Document', 'jobApplication')
+  documents!: any[];
 
   @CreateDateColumn()
   createdAt!: Date;
