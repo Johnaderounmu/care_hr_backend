@@ -99,12 +99,28 @@ src/
    # Edit .env with your configuration
    ```
 
-4. **Start PostgreSQL** (using Docker)
+4. **Start PostgreSQL Database** (using Docker)
    ```bash
-   docker-compose up -d postgres
+   docker-compose up -d
+   ```
+   
+   Or install PostgreSQL locally:
+   ```bash
+   # macOS
+   brew install postgresql@15
+   brew services start postgresql@15
+   
+   # Create database
+   createdb carehr_dev
    ```
 
-5. **Start the development server**
+5. **Initialize the database**
+   ```bash
+   npm run migration:run
+   npm run seed:dev  # Optional: seed with sample data
+   ```
+
+6. **Start the development server**
    ```bash
    npm run dev
    ```
@@ -138,7 +154,7 @@ Create a `.env` file in the root directory:
 PORT=4000
 NODE_ENV=development
 
-# Database Configuration
+# PostgreSQL Database Configuration
 DATABASE_URL=postgres://user:password@localhost:5432/carehr
 PG_HOST=localhost
 PG_PORT=5432
@@ -146,15 +162,21 @@ PG_USER=postgres
 PG_PASSWORD=your_password
 PG_DATABASE=carehr
 
-# Authentication
+# Authentication (JWT)
 JWT_SECRET=your-super-secure-secret-key
 JWT_EXPIRES_IN=24h
 
-# AWS S3 Configuration
+# AWS S3 Configuration (Document Storage)
 AWS_ACCESS_KEY_ID=your_access_key
 AWS_SECRET_ACCESS_KEY=your_secret_key
 S3_BUCKET_NAME=care-hr-documents
 S3_REGION=us-east-1
+
+# Optional: Email Configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
 ```
 
 ## 👨‍💻 Development
