@@ -1,6 +1,11 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { User } from './entities/User';
+import { Job } from './entities/Job';
+import { JobApplication } from './entities/JobApplication';
+import { Document } from './entities/Document';
+import { Notification } from './entities/Notification';
+import { Interview } from './entities/Interview';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,6 +19,6 @@ export const AppDataSource = new DataSource({
   database: process.env.PG_DATABASE || 'carehr_dev',
   synchronize: true,
   logging: false,
-  entities: [User],
+  entities: [User, Job, JobApplication, Document, Notification, Interview],
   migrations: [],
 });
