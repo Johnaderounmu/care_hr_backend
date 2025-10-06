@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
-import express, { Application } from 'express';
+import { Application } from 'express';
 import { gql } from 'apollo-server-core';
 import jwt from 'jsonwebtoken';
 
@@ -15,7 +15,7 @@ export async function startGraphQL(app: Application) {
 
   const resolvers = {
     Query: {
-      jobs: (_: any, __: any, ctx: any) => {
+      users: () => {
         // a real impl would query DB; we expose user from context
         return [];
       },
@@ -36,7 +36,7 @@ export async function startGraphQL(app: Application) {
         try {
           const payload = jwt.verify(token, jwtSecret);
           return { user: payload };
-        } catch (e) {
+        } catch {
           return { user: null };
         }
       }

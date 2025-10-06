@@ -74,7 +74,7 @@ export class Document {
 
   @ManyToOne('JobApplication', 'documents', { nullable: true })
   @JoinColumn({ name: 'jobApplicationId' })
-  jobApplication?: any;
+  jobApplication?: import('./JobApplication').JobApplication;
 
   @Column({ nullable: true })
   jobApplicationId?: string;

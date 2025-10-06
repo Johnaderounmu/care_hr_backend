@@ -77,7 +77,7 @@ export class Interview {
   score?: number;
 
   @Column('json', { nullable: true })
-  feedback?: Record<string, any>;
+  feedback?: Record<string, string | number | boolean>;
 
   @ManyToOne(() => User, { nullable: false })
   @JoinColumn({ name: 'interviewerId' })

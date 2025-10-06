@@ -101,7 +101,7 @@ export class Job {
   createdById!: string;
 
   @OneToMany('JobApplication', 'job')
-  applications!: any[];
+  applications!: import('./JobApplication').JobApplication[];
 
   @CreateDateColumn()
   createdAt!: Date;

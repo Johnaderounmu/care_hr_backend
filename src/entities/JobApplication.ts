@@ -30,7 +30,7 @@ export class JobApplication {
 
   @ManyToOne('Job', 'applications', { nullable: false })
   @JoinColumn({ name: 'jobId' })
-  job: any;
+  job!: import('./Job').Job;
 
   @Column()
   jobId!: string;
@@ -53,7 +53,7 @@ export class JobApplication {
   coverLetter?: string;
 
   @Column('json', { nullable: true })
-  answers?: Record<string, any>;
+  answers?: Record<string, string | number | boolean>;
 
   @Column({ nullable: true })
   resumeUrl?: string;
@@ -87,7 +87,7 @@ export class JobApplication {
   reviewedAt?: Date;
 
   @OneToMany('Document', 'jobApplication')
-  documents!: any[];
+  documents!: import('./Document').Document[];
 
   @CreateDateColumn()
   createdAt!: Date;

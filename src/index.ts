@@ -7,24 +7,25 @@ import authRoutes from './routes/auth';
 import s3Routes from './routes/s3';
 import jobRoutes from './routes/jobs';
 import applicationRoutes from './routes/applications';
+import logger from './utils/logger';
 
 const app = express();
 app.use(cors());
 app.use(json());
 
 // Add error handling middleware
-app.use((err: any, req: any, res: any, next: any) => {
-  console.error('Unhandled error:', err);
+app.use((err: any, _req: any, res: any) => {
+  logger.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
 
 async function start() {
   try {
-    console.log('🔄 Initializing database connection...');
+    logger.info('🔄 Initializing database connection...');
     await AppDataSource.initialize();
-    console.log('✅ Postgres datasource initialized successfully');
+    logger.info('✅ Postgres datasource initialized successfully');
   } catch (err) {
-    console.warn('⚠️  Failed to initialize Postgres datasource, continuing without DB:', (err as Error)?.message);
+    logger.warn('⚠️  Failed to initialize Postgres datasource, continuing without DB:', (err as Error)?.message);
   }
 
   // API Routes
@@ -57,30 +58,30 @@ async function start() {
   
   return new Promise<void>((resolve, reject) => {
     const server = app.listen(port, () => {
-      console.log(`🚀 Care HR backend running on http://localhost:${port}`);
-      console.log(`📊 Health check: http://localhost:${port}/health`);
-      console.log(`🔗 API endpoints: http://localhost:${port}/api/`);
+      logger.info(`🚀 Care HR backend running on http://localhost:${port}`);
+      logger.info(`📊 Health check: http://localhost:${port}/health`);
+      logger.info(`🔗 API endpoints: http://localhost:${port}/api/`);
       resolve();
     });
 
     server.on('error', (err) => {
-      console.error('❌ Server error:', err);
+      logger.error('❌ Server error:', err);
       reject(err);
     });
 
     // Keep server alive
     process.on('SIGTERM', () => {
-      console.log('🛑 SIGTERM received, shutting down gracefully');
+      logger.info('🛑 SIGTERM received, shutting down gracefully');
       server.close(() => {
-        console.log('✅ Server closed');
+        logger.info('✅ Server closed');
         process.exit(0);
       });
     });
 
     process.on('SIGINT', () => {
-      console.log('🛑 SIGINT received, shutting down gracefully');
+      logger.info('🛑 SIGINT received, shutting down gracefully');
       server.close(() => {
-        console.log('✅ Server closed');
+        logger.info('✅ Server closed');
         process.exit(0);
       });
     });
@@ -89,10 +90,10 @@ async function start() {
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  logger.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
 start().catch(err => {
-  console.error('💥 Failed to start server:', err);
+  logger.error('💥 Failed to start server:', err);
   process.exit(1);
 });
